@@ -1,0 +1,93 @@
+<aura:component controller="TaskCreatorController" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:attribute name="taskSubject" type="String" default="" />
+    <aura:attribute name="taskDueDate" type="Date" default="" />
+    <aura:attribute name="taskPriority" type="String" default="" />
+    <aura:attribute name="taskStatus" type="String" default="" />
+    <aura:attribute name="taskDescription" type="String" default="" />
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    
+    <lightning:layout>
+        <lightning:layoutItem padding="around-small" size="12">
+            <lightning:card>
+                <!-- Header Section -->
+                <aura:set attribute="title">
+                    <div class="slds-p-around_small">
+                        <lightning:icon iconName="standard:task" size="small" alternativeText="Task"/>
+                        <span class="slds-p-left_small">Create Task</span>
+                    </div>
+                </aura:set>
+                
+                <!-- Body Section -->
+                <aura:set attribute="body">
+                    <div class="slds-p-around_small">
+                        <lightning:input 
+                            label="Subject" 
+                            value="{!v.taskSubject}" 
+                            required="true"
+                            class="slds-m-bottom_small"/>
+                        
+                        <lightning:input 
+                            type="date" 
+                            label="Due Date" 
+                            value="{!v.taskDueDate}" 
+                            required="true"
+                            class="slds-m-bottom_small"/>
+                        
+                        <lightning:select 
+                            label="Priority" 
+                            value="{!v.taskPriority}" 
+                            required="true"
+                            class="slds-m-bottom_small">
+                            <option value="">--Select Priority--</option>
+                            <option value="High">High</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Low">Low</option>
+                        </lightning:select>
+                        
+                        <lightning:select 
+                            label="Status" 
+                            value="{!v.taskStatus}" 
+                            required="true"
+                            class="slds-m-bottom_small">
+                            <option value="">--Select Status--</option>
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Waiting on someone else">Waiting on someone else</option>
+                            <option value="Deferred">Deferred</option>
+                        </lightning:select>
+                        
+                        <lightning:textarea 
+                            label="Description" 
+                            value="{!v.taskDescription}" />
+                    </div>
+                </aura:set>
+                
+                <!-- Footer Section -->
+                <aura:set attribute="footer">
+                    <div class="slds-p-around_small slds-grid slds-grid_align-center">
+                        <lightning:button 
+                            variant="brand" 
+                            label="Create Task" 
+                            onclick="{!c.createTask}" 
+                            disabled="{!v.isLoading}"
+                            class="slds-m-right_small"/>
+                        
+                        <lightning:button 
+                            variant="neutral" 
+                            label="Reset" 
+                            onclick="{!c.resetForm}"
+                            disabled="{!v.isLoading}"/>
+                        
+                        <!-- Spinner in Footer -->
+                        <aura:if isTrue="{!v.isLoading}">
+                            <div class="slds-m-left_small">
+                                <lightning:spinner size="small" alternativeText="Loading"/>
+                            </div>
+                        </aura:if>
+                    </div>
+                </aura:set>
+            </lightning:card>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

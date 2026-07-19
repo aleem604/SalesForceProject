@@ -1,0 +1,190 @@
+<template>
+    <div class="slds-p-around_medium">
+        <div class="slds-grid slds-wrap slds-grid_align-spread slds-m-bottom_medium">
+            <div class="slds-col">
+                <h1 class="slds-text-heading_medium slds-m-bottom_xx-small">
+                    Profile Manager
+                </h1>
+                <p class="slds-text-body_small slds-text-color_weak">
+                    Total Profiles: {totalProfiles}
+                    <template lwc:if={searchTerm}>
+                        | Filtered: {profileCount}
+                    </template>
+                </p>
+            </div>
+
+            <div class="slds-col slds-no-flex">
+                <lightning-button
+                    label="Refresh"
+                    icon-name="utility:refresh"
+                    onclick={handleRefresh}
+                    disabled={isLoading}
+                    variant="neutral"
+                    class="slds-m-right_xx-small">
+                </lightning-button>
+
+                <lightning-button
+                    label="Export"
+                    icon-name="utility:download"
+                    onclick={handleExport}
+                    disabled={hasNoProfiles}
+                    variant="neutral">
+                </lightning-button>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <lightning-input
+                    data-id="profile-search"
+                    type="search"
+                    label="Search Profiles"
+                    placeholder="Search by profile name or license..."
+                    value={searchTerm}
+                    onchange={handleSearch}
+                    disabled={isLoading}
+                    variant="label-hidden">
+                </lightning-input>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top_x-small">
+                <template lwc:if={searchTerm}>
+                    <lightning-button
+                        label="Clear"
+                        icon-name="utility:close"
+                        onclick={handleClearSearch}
+                        variant="destructive-text">
+                    </lightning-button>
+                </template>
+            </div>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="slds-is-relative loading-container">
+                <lightning-spinner
+                    alternative-text="Loading profiles..."
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={showError}>
+            <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_medium" role="alert">
+                <lightning-icon
+                    icon-name="utility:error"
+                    alternative-text="Error"
+                    size="x-small"
+                    variant="inverse"
+                    class="slds-m-right_x-small">
+                </lightning-icon>
+                <span>{error}</span>
+                <lightning-button
+                    label="Retry"
+                    onclick={handleRetry}
+                    variant="brand"
+                    class="slds-m-left_medium">
+                </lightning-button>
+            </div>
+        </template>
+
+        <template lwc:if={hasProfiles}>
+            <div class="table-container slds-m-top_medium">
+                <lightning-datatable
+                    key-field="Id"
+                    data={paginatedProfiles}
+                    columns={columns}
+                    column-widths-mode="fixed"
+                    hide-checkbox-column
+                    onrowaction={handleRowAction}
+                    onsort={handleSort}
+                    sorted-by={sortField}
+                    sorted-direction={sortDirection}
+                    show-row-number-column
+                    row-number-offset={rowNumberOffset}>
+                </lightning-datatable>
+
+                <div class="pagination slds-grid slds-wrap slds-grid_align-spread slds-grid_vertical-align-center slds-m-top_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 pagination-summary">
+                        <span class="slds-text-body_small slds-text-color_weak">
+                            Showing {firstRecordNumber}–{lastRecordNumber} of {profileCount}
+                        </span>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 pagination-controls">
+                        <lightning-button
+                            label="Previous"
+                            icon-name="utility:chevronleft"
+                            onclick={handlePreviousPage}
+                            disabled={isFirstPage}
+                            variant="neutral">
+                        </lightning-button>
+
+                        <span class="slds-m-horizontal_medium slds-text-body_regular">
+                            Page {currentPage} of {totalPages}
+                        </span>
+
+                        <lightning-button
+                            label="Next"
+                            icon-name="utility:chevronright"
+                            icon-position="right"
+                            onclick={handleNextPage}
+                            disabled={isLastPage}
+                            variant="neutral">
+                        </lightning-button>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 pagination-size">
+                        <lightning-combobox
+                            name="pageSize"
+                            label="Rows per page"
+                            value={pageSizeValue}
+                            options={pageSizeOptions}
+                            onchange={handlePageSizeChange}
+                            variant="label-hidden">
+                        </lightning-combobox>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template lwc:if={hasNoSearchResults}>
+            <div class="empty-state slds-m-around_xx-large">
+                <lightning-icon
+                    icon-name="utility:search"
+                    alternative-text="No search results"
+                    size="medium"
+                    class="slds-m-bottom_small">
+                </lightning-icon>
+                <p class="slds-text-heading_small slds-text-color_weak">
+                    No profiles found matching "{searchTerm}"
+                </p>
+                <lightning-button
+                    label="Clear Search"
+                    onclick={handleClearSearch}
+                    variant="brand"
+                    class="slds-m-top_small">
+                </lightning-button>
+            </div>
+        </template>
+
+        <template lwc:if={showEmptyState}>
+            <div class="empty-state slds-m-around_xx-large">
+                <lightning-icon
+                    icon-name="utility:info"
+                    alternative-text="No profiles"
+                    size="large"
+                    class="slds-m-bottom_small">
+                </lightning-icon>
+                <p class="slds-text-heading_small slds-text-color_weak">
+                    No profiles available
+                </p>
+                <lightning-button
+                    label="Refresh"
+                    onclick={handleRefresh}
+                    variant="brand"
+                    class="slds-m-top_small">
+                </lightning-button>
+            </div>
+        </template>
+    </div>
+</template>

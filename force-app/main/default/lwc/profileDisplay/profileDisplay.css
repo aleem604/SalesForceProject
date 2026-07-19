@@ -1,0 +1,47 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.table-container,
+.table-container lightning-datatable {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+}
+
+.loading-container {
+    min-height: 8rem;
+}
+
+.empty-state {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.pagination-controls {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-size {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-size lightning-combobox {
+    width: 8rem;
+}
+
+@media (max-width: 47.9375rem) {
+    .pagination-controls,
+    .pagination-size,
+    .pagination-summary {
+        justify-content: center;
+        margin-top: 0.75rem;
+        text-align: center;
+    }
+}

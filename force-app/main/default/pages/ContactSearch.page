@@ -1,0 +1,17 @@
+<apex:page controller="ContactSearchController">
+    <apex:form >
+        <apex:inputText value="{!searchKey}" label="Type your search key here" />
+        <apex:commandButton value="Search" action="{!searchContacts}" rerender="resultsPanel" />
+        <apex:outputPanel id="resultsPanel">
+            <apex:pageBlock title="Search Results">
+                <apex:pageBlockTable value="{!contacts}" var="contact">
+                    
+                    <apex:column headerValue="First Name" value="{!contact.FirstName}" />
+                    <apex:column headerValue="Last Name" value="{!contact.LastName}" />
+                    <apex:column headerValue="Email" value="{!contact.Email}" />
+                    <apex:column headerValue="Phone" value="{!contact.Phone}" />
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>
