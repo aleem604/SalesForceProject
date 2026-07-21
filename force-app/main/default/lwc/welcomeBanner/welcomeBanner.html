@@ -1,0 +1,71 @@
+<template>
+    <div class="banner-container">
+        <!-- Background Animation -->
+        <div class="background-animation">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+            <div class="circle circle-4"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="banner-content">
+            <div class="icon-wrapper">
+                <lightning-icon 
+                    icon-name="action:approval" 
+                    size="x-large"
+                    class="welcome-icon"
+                    alternative-text="Welcome"
+                ></lightning-icon>
+            </div>
+
+            <div class="text-content">
+                <h1 class="welcome-title">
+                    <span class="greeting">Welcome Back,</span>
+                    <span class="user-name">{userName}</span>
+                </h1>
+                
+                <p class="welcome-subtitle">
+                    <span class="date-display">{currentDate}</span>
+                    <span class="separator">•</span>
+                    <span class="time-display">{currentTime}</span>
+                </p>
+
+                <div class="message-box">
+                    <p class="welcome-message">
+                        <lightning-icon 
+                            icon-name="utility:info" 
+                            size="x-small"
+                            class="info-icon"
+                        ></lightning-icon>
+                        {welcomeMessage}
+                    </p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <lightning-button 
+                    variant="brand"
+                    label="Dashboard"
+                    title="Go to Dashboard"
+                    onclick={handleDashboard}
+                    class="action-btn"
+                ></lightning-button>
+                <lightning-button 
+                    variant="outline-brand"
+                    label="View Profile"
+                    title="View Profile"
+                    onclick={handleProfile}
+                    class="action-btn"
+                ></lightning-button>
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="decorative-line"></div>
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">All systems operational</span>
+        </div>
+    </div>
+</template>
