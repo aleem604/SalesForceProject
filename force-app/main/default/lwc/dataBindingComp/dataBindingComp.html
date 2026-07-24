@@ -1,0 +1,15 @@
+<template>
+    <div class="container">
+        <lightning-card title="Tasks List" icon-name="standard:task">
+            <div class="slds-p-horizontal_medium">
+                <ul>
+                    <template for:each={tasks} for:item="task">
+                        <li key={task.taskName}>
+                            <strong>{task.taskName}</strong> - {task.taskPriority} - {task.taskStatus}
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </lightning-card>
+    </div>
+</template>

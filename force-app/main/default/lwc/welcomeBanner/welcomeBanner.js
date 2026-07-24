@@ -1,8 +1,8 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 
 export default class WelcomeBanner extends LightningElement {
-    @track userName = 'John Doe';
-    @track welcomeMessage = 'You have 3 pending tasks and 2 new notifications';
+    @api userName = 'John Eaton Doe';
+    @api welcomeMessage = 'You have 13 pending tasks and 20 new notifications';
     @track currentDate = '';
     @track currentTime = '';
     @track intervalId = null;
@@ -37,26 +37,12 @@ export default class WelcomeBanner extends LightningElement {
     }
 
     handleDashboard() {
-        // Navigate to dashboard
         console.log('Navigating to dashboard...');
-        // this[NavigationMixin.Navigate]({
-        //     type: 'standard__webPage',
-        //     attributes: {
-        //         url: '/dashboard'
-        //     }
-        // });
+        // Add your navigation logic here
     }
 
     handleProfile() {
-        // Navigate to profile
         console.log('Navigating to profile...');
-        // this[NavigationMixin.Navigate]({
-        //     type: 'standard__recordPage',
-        //     attributes: {
-        //         recordId: 'YOUR_USER_ID',
-        //         objectApiName: 'User',
-        //         actionName: 'view'
-        //     }
-        // });
+        // Add your navigation logic here
     }
 }

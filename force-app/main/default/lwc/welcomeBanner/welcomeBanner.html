@@ -1,71 +1,49 @@
 <template>
-    <div class="banner-container">
-        <!-- Background Animation -->
-        <div class="background-animation">
-            <div class="circle circle-1"></div>
-            <div class="circle circle-2"></div>
-            <div class="circle circle-3"></div>
-            <div class="circle circle-4"></div>
-        </div>
+    <!-- Main container using SLDS 2 card with elevated shadow -->
+    <div class="slds-card slds-theme_shade slds-m-around_medium" style="background: linear-gradient(135deg, var(--lwc-colorBackgroundBrandPrimary, #1e3c72) 0%, var(--lwc-colorBackgroundBrandPrimaryDark, #2a5298) 100%); border-radius: var(--lwc-borderRadiusMedium, 0.5rem); border: none; overflow: hidden;">
 
-        <!-- Main Content -->
-        <div class="banner-content">
-            <div class="icon-wrapper">
-                <lightning-icon 
-                    icon-name="action:approval" 
-                    size="x-large"
-                    class="welcome-icon"
-                    alternative-text="Welcome"
-                ></lightning-icon>
-            </div>
+        <!-- Content inside the card -->
+        <div class="slds-card__body slds-p-around_large" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
 
-            <div class="text-content">
-                <h1 class="welcome-title">
-                    <span class="greeting">Welcome Back,</span>
-                    <span class="user-name">{userName}</span>
-                </h1>
-                
-                <p class="welcome-subtitle">
-                    <span class="date-display">{currentDate}</span>
-                    <span class="separator">•</span>
-                    <span class="time-display">{currentTime}</span>
-                </p>
+            <!-- Left side: Icon + Text -->
+            <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 200px;">
+                <!-- Icon using SLDS sprite -->
+                <span class="slds-icon_container slds-icon-utility-announcement" 
+                      title="Welcome" 
+                      style="background: rgba(255,255,255,0.15); border-radius: 50%; padding: 0.75rem; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                    <svg class="slds-icon slds-icon_x-large" aria-hidden="true" style="--lwc-colorTextIconDefault: white;">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#announcement"></use>
+                    </svg>
+                </span>
 
-                <div class="message-box">
-                    <p class="welcome-message">
-                        <lightning-icon 
-                            icon-name="utility:info" 
-                            size="x-small"
-                            class="info-icon"
-                        ></lightning-icon>
-                        {welcomeMessage}
+                <!-- Text Content -->
+                <div style="color: white; flex: 1;">
+                    <h1 class="slds-text-heading_medium slds-m-bottom_xx-small" style="font-weight: 700; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                        <span style="font-weight: 400; opacity: 0.9;">Welcome Back,</span>
+                        <span style="background: linear-gradient(120deg, #f6d365 0%, #fda085 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{userName}</span>
+                    </h1>
+                    <p class="slds-text-body_small slds-text-color_weak" style="color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.5rem;">
+                        <span>{currentDate}</span>
+                        <span style="opacity: 0.5;">•</span>
+                        <span>{currentTime}</span>
                     </p>
+                    <!-- SLDS Notification Alert style message -->
+                    <div class="slds-notify slds-notify_alert slds-alert_success" role="alert" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 0.5rem 1rem; border-radius: var(--lwc-borderRadiusMedium, 0.5rem); width: fit-content;">
+                        <span class="slds-assistive-text">Info</span>
+                        <span class="slds-icon_container slds-icon-utility-info" title="Info" style="margin-right: 0.5rem;">
+                            <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+                            </svg>
+                        </span>
+                        <span>{welcomeMessage}</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="action-buttons">
-                <lightning-button 
-                    variant="brand"
-                    label="Dashboard"
-                    title="Go to Dashboard"
-                    onclick={handleDashboard}
-                    class="action-btn"
-                ></lightning-button>
-                <lightning-button 
-                    variant="outline-brand"
-                    label="View Profile"
-                    title="View Profile"
-                    onclick={handleProfile}
-                    class="action-btn"
-                ></lightning-button>
-            </div>
-        </div>
+         </div>
 
-        <!-- Decorative Elements -->
-        <div class="decorative-line"></div>
-        <div class="status-indicator">
-            <span class="status-dot"></span>
-            <span class="status-text">All systems operational</span>
-        </div>
+        <!-- Bottom decorative gradient line -->
+        <div style="height: 3px; background: linear-gradient(90deg, #f6d365 0%, #fda085 25%, #f6d365 50%, #fda085 75%, #f6d365 100%); background-size: 200% 100%; animation: shimmer 3s infinite;"></div>
+
     </div>
 </template>
